@@ -1,0 +1,16 @@
+.task{
+    border-top: 3px solid darkorchid; 
+    background-color: #333;
+}
+.envelope{
+    position:absolute;
+    display:flex;
+    z-index:2;
+    align-self: flex-end; 
+    top:50%; 
+    margin: 0.5vh;
+}
+
+.hide{
+    display: none;
+}
