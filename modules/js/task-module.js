@@ -27,7 +27,7 @@ cardTitle:{
 },
 
 cardText:{
-    tag: "p",
+    tag: "h6",
     class: "card-text text-light"
 }},
 toDocolumn = document.querySelector('#toDocolumn'),
@@ -45,12 +45,16 @@ allColumns.forEach(column=>{
         e.preventDefault()
     })
     column.addEventListener('drop',function(e){
+        if(e.target.hasAttribute("data-column-category")){
         let id = e.dataTransfer.getData('text/plain').split(',')[0],
         columnCategory = e.target.getAttribute("data-column-category"),
         task=document.getElementById(id)
+        console.log(e.target)
         e.target.append(task)
         task.classList.remove('hide');
         updateCategory(task,id,columnCategory)
+        }
+        e.target.classList.remove('hide')
     })
 
 })
@@ -124,10 +128,14 @@ function renderTask(item){
             e.target.classList.add('hide');
         }, 0); 
     })
-    card.addEventListener('dragover',function(e){
+     card.addEventListener('dragover',function(e){
         if(e.target.hasAttribute("data-task")){
-       console.log(e.target.getBoundingClientRect())
-    }
+            console.log(e.target.previousSibling)
+    } 
+    })
+    card.addEventListener('dragend',function(event){
+        event.target.classList.remove('hide')
+        
     })
 
     switch(item.category){
