@@ -124,8 +124,10 @@ function renderTask(item){
             e.target.classList.add('hide');
         }, 0); 
     })
-    card.addEventListener('dragover',function(){
-       return false
+    card.addEventListener('dragover',function(e){
+        if(e.target.hasAttribute("data-task")){
+       console.log(e.target.getBoundingClientRect())
+    }
     })
 
     switch(item.category){

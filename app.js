@@ -1,12 +1,12 @@
 import {fetchAllTasksData} from './modules/js/task-module.js';
-import {getTaskById, editModal,form,updateTask,addTask, clearForm} from './modules/js/modals-module.js'
+import {getTaskById, editModal,deleteModal,form,deleteBtn,updateTask,addTask, deleteTask, clearForm} from './modules/js/modals-module.js'
 import './modules/js/dragndrop-module.js'
 
 document.addEventListener("DOMContentLoaded",function(){
     fetchAllTasksData();
 
 })
-var taskId;
+var taskId,deleteId;
 //(!!taskId)?getTaskById(taskId):clearForm()
 editModal.addEventListener('show.bs.modal',function(event){
      taskId = event.relatedTarget.id
@@ -31,4 +31,14 @@ editModal.addEventListener('hidden.bs.modal',function(){
     fetchAllTasksData()
 })
 
- 
+deleteModal.addEventListener('show.bs.modal',function(event){
+    deleteId=event.relatedTarget.closest("[data-task]").id
+}) 
+
+ deleteBtn.addEventListener('click',function(){
+    deleteTask(deleteId)
+}) 
+
+deleteModal.addEventListener('hidden.bs.modal',function(){
+    fetchAllTasksData()
+})

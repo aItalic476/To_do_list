@@ -2,6 +2,7 @@
 
 var editModal = document.querySelector("#taskModal"),
 deleteModal = document.querySelector('#deleteModal'),
+deleteBtn = deleteModal.querySelector("[data-delete]"),
 taskTitle=editModal.querySelector('#taskTitle'),
 taskName=editModal.querySelector('#taskName'),
 taskDetails=editModal.querySelector('#taskDetails'),
@@ -29,9 +30,7 @@ function getTaskById(taskId){
         console.log(error)
     })
 }
-//в eventListener нужно добавить функцию, проверяющую event.relatedTarget - то, откуда было вызвано модальное окно
-//если модальное окно было вызвано из кнопки +Add new task, то очистить форму, а затем вставить написанное
-//formData - это нечто странное, думаю легче обработать каждое поле формы и закодировать в json
+
 function setModalContent(data){
     taskTitle.innerText= data.title;
     taskName.value = data.title;
@@ -87,5 +86,23 @@ function clearForm(){
     taskDetails.value = ""
 }
 
-export {getTaskById, editModal,form,updateTask,addTask, clearForm}
+function deleteTask(deleteId){
+    let url = "/modules/php/deleteTask.php",
+    data = {id:deleteId}
+    fetch(url,{
+        method:"POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+    .then(function(response){
+        console.log(response.status)
+    })
+    .catch(function(error){
+        console.log(error)
+    })
+}
+
+export {getTaskById, editModal,deleteModal,form,deleteBtn,updateTask,addTask, deleteTask, clearForm}
 
