@@ -12,7 +12,12 @@ $opt = [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     PDO::ATTR_EMULATE_PREPARES   => false,
 ];
-
-$db = new PDO($dsn,$user,$pass,$opt);
+try{
+    $db = new PDO($dsn,$user,$pass,$opt);
+}
+catch(PDOException $exception){
+    $err = $exception->getMessage();
+    echo "<h3>Error $err<h3>";
+};
 
 ?>
