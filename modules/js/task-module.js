@@ -1,4 +1,4 @@
-//убрать из рендеринга buttonEdit
+
 var taskElements= {
 card:{
     tag: "div",
@@ -12,10 +12,7 @@ cardBody:{
     tag: "div",
     class:"card-body"
 },
-buttonEdit:{
-    tag: "button",
-    class: "btn btn-outline-light border-0 disabled"
-},
+
 buttonDelete:{
     tag: "button",
     class: "btn btn-outline-light border-0"
@@ -49,12 +46,10 @@ allColumns.forEach(column=>{
         let id = e.dataTransfer.getData('text/plain').split(',')[0],
         columnCategory = e.target.getAttribute("data-column-category"),
         task=document.getElementById(id)
-        console.log(e.target)
         e.target.append(task)
         task.classList.remove('hide');
         updateCategory(task,id,columnCategory)
         }
-        e.target.classList.remove('hide')
     })
 
 })
@@ -110,7 +105,7 @@ function fetchAllTasksData(){
 //блок switch-case в функциях renderTask и createItems вынести в отдельные функции
 // цикл в ajax запросе вынести в функцию render
 function renderTask(item){
-    let [card, envelope, cardBody,buttonEdit,buttonDelete,cardTitle,cardText] = createItems();
+    let [card, envelope, cardBody,buttonDelete,cardTitle,cardText] = createItems();
 
     card.id = item.id;
     card.setAttribute("data-task-category",item.category)
@@ -118,7 +113,7 @@ function renderTask(item){
     cardTitle.innerText = item.title;
     cardText.innerText = item.description;
     
-    envelope.append(buttonEdit,buttonDelete);
+    envelope.append(buttonDelete);
     cardBody.append(cardTitle,cardText);
     card.append(envelope,cardBody);
     
@@ -130,7 +125,7 @@ function renderTask(item){
     })
      card.addEventListener('dragover',function(e){
         if(e.target.hasAttribute("data-task")){
-            console.log(e.target.previousSibling)
+            
     } 
     })
     card.addEventListener('dragend',function(event){
@@ -166,13 +161,6 @@ function createItems(){
                 newItem.setAttribute("data-bs-target","#taskModal");
                 newItem.setAttribute("data-task","task");
                 newItem.setAttribute("draggable","true")
-            break;
-            case "buttonEdit":
-                newItem.setAttribute("data-bs-toggle","modal");
-                newItem.setAttribute("data-bs-target","#taskModal");
-                newItem.insertAdjacentHTML('beforeend',`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
-                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
-                </svg>`)
             break;
             case "buttonDelete":
                 newItem.setAttribute("data-bs-toggle","modal");
