@@ -1,13 +1,12 @@
 import {renderAllTasks} from './modules/js/task-module.js';
 import {getTaskById, editModal,deleteModal,form,deleteBtn,updateTask,addTask, deleteTask, clearForm} from './modules/js/modals-module.js'
-//import './modules/js/dragndrop-module.js'
 
-document.addEventListener("DOMContentLoaded",function(){
+ document.addEventListener("DOMContentLoaded",function(){
     renderAllTasks();
+}) 
 
-})
 var taskId,deleteId;
-//(!!taskId)?getTaskById(taskId):clearForm()
+
 editModal.addEventListener('show.bs.modal',function(event){
      taskId = event.relatedTarget.id
      clearForm()
@@ -15,7 +14,7 @@ editModal.addEventListener('show.bs.modal',function(event){
         getTaskById(taskId)
     }
 })
-//(!!taskId)?updateTask(taskId):addTask()
+
 form.addEventListener('submit',function(event){
     event.preventDefault()
     if(!!taskId){

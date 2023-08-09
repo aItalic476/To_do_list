@@ -1,5 +1,3 @@
-//import { fetchAllTasksData } from "./task-module.js";
-
 var editModal = document.querySelector("#taskModal"),
 deleteModal = document.querySelector('#deleteModal'),
 deleteBtn = deleteModal.querySelector("[data-delete]"),
@@ -8,9 +6,6 @@ taskName=editModal.querySelector('#taskName'),
 taskDetails=editModal.querySelector('#taskDetails'),
 form = editModal.querySelector('form')
 
-
-
-    
 function getTaskById(taskId){
     let targetId = taskId
     fetch("/modules/php/getTaskById.php",{

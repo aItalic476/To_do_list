@@ -43,18 +43,16 @@ function updateCategory(task,id, columnCategory){
 
 
 export function renderAllTasks(){
-    
     fetch("modules/php/getAllTasks.php",{
         method: "GET"
     })
     .then(function(response){
         return response.json()
     })
-    .then(function(values){
+    .then(function(data){
         clearColumns()
-        for(let item in values){
-            createTask(values[item])
-        }
+        data.forEach(item=>createTask(item))
+        
     })
     .catch(function(error){
         console.log(error)
@@ -62,11 +60,11 @@ export function renderAllTasks(){
 }
 
 function clearColumns(){
-    let addBtn = document.querySelector("#addBtn").content.firstElementChild.cloneNode(true)
     toDocolumn.replaceChildren()
+    let addBtn = document.querySelector("#addBtn").content.firstElementChild.cloneNode(true)
     toDocolumn.insertAdjacentElement('afterbegin',addBtn)
     presentColumn.replaceChildren()
-    completedColumn.replaceChildren() 
+    completedColumn.replaceChildren()
 }
 
 function createTask(item){
