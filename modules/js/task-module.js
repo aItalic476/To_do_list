@@ -1,33 +1,5 @@
 
-var taskElements= {
-card:{
-    tag: "div",
-    class: "card shadow-sm mb-3 task"
-},
-envelope:{
-    tag: "div",
-    class: "envelope"
-},
-cardBody:{
-    tag: "div",
-    class:"card-body"
-},
-
-buttonDelete:{
-    tag: "button",
-    class: "btn btn-outline-light border-0"
-},
-
-cardTitle:{
-    tag: "h5",
-    class: "card-title text-light"
-},
-
-cardText:{
-    tag: "h6",
-    class: "card-text text-light"
-}},
-toDocolumn = document.querySelector('#toDocolumn'),
+var toDocolumn = document.querySelector('#toDocolumn'),
 presentColumn=document.querySelector('#presentColumn'),
 completedColumn=document.querySelector('#completedColumn'),
 allColumns = [toDocolumn,presentColumn,completedColumn];
@@ -70,7 +42,7 @@ function updateCategory(task,id, columnCategory){
 }
 
 
-function fetchAllTasksData(){
+export function renderAllTasks(){
     
     fetch("modules/php/getAllTasks.php",{
         method: "GET"
@@ -79,22 +51,9 @@ function fetchAllTasksData(){
         return response.json()
     })
     .then(function(values){
-        toDocolumn.replaceChildren()
-        toDocolumn.insertAdjacentHTML('beforeend',`<button class="text-light"
-        style=" max-height:4vh; background-color:transparent; outline:none; border: none; box-shadow: none;"
-        data-bs-toggle="modal"
-        data-bs-target="#taskModal"
-        data-button-add="newTask"
-         >
-       <div style="display: flex; align-items: center;justify-content: center;">
-           <div style="font-size: 5vh; font-weight: 300;">+&nbsp;</div>
-           <div style="font-weight: 300;">Add new task</div></div>
-       </button>`)
-        presentColumn.replaceChildren()
-        completedColumn.replaceChildren()
-
-        for (let item in values){
-            renderTask(values[item])
+        clearColumns()
+        for(let item in values){
+            createTask(values[item])
         }
     })
     .catch(function(error){
@@ -102,79 +61,61 @@ function fetchAllTasksData(){
     })
 }
 
-//блок switch-case в функциях renderTask и createItems вынести в отдельные функции
-// цикл в ajax запросе вынести в функцию render
-function renderTask(item){
-    let [card, envelope, cardBody,buttonDelete,cardTitle,cardText] = createItems();
+function clearColumns(){
+    let addBtn = document.querySelector("#addBtn").content.firstElementChild.cloneNode(true)
+    toDocolumn.replaceChildren()
+    toDocolumn.insertAdjacentElement('afterbegin',addBtn)
+    presentColumn.replaceChildren()
+    completedColumn.replaceChildren() 
+}
 
-    card.id = item.id;
-    card.setAttribute("data-task-category",item.category)
+function createTask(item){
+    let task = getTask()
+    setTaskData(task,item)
+    setTaskListeners(task)
+    categorizeTask(item,task)
+}
 
-    cardTitle.innerText = item.title;
-    cardText.innerText = item.description;
-    
-    envelope.append(buttonDelete);
-    cardBody.append(cardTitle,cardText);
-    card.append(envelope,cardBody);
-    
-    card.addEventListener('dragstart',function(e){
+function getTask(){
+    let task = document.querySelector("#taskTemplate").content.firstElementChild.cloneNode(true);
+    return task
+}
+
+function setTaskData(task,item){
+    task.id = item.id
+    task.setAttribute("data-task-category",item.category)
+    task.querySelector('h5').innerText = item.title
+    task.querySelector('h6').innerText = item.description
+}
+
+function setTaskListeners(task){
+
+    task.addEventListener('dragstart',function(e){
         e.dataTransfer.setData('text/plain',[e.target.id,e.target.getAttribute("data-task-category")]);
         setTimeout(() => {
             e.target.classList.add('hide');
         }, 0); 
     })
-     card.addEventListener('dragover',function(e){
-        if(e.target.hasAttribute("data-task")){
-            
-    } 
-    })
-    card.addEventListener('dragend',function(event){
+
+    task.addEventListener('dragend',function(event){
         event.target.classList.remove('hide')
         
     })
+}
 
+function categorizeTask(item,task){
     switch(item.category){
         case "toDo":
-            toDocolumn.insertAdjacentElement('beforeend',card);
+            toDocolumn.insertAdjacentElement('beforeend',task);
         break;
 
         case "present":
-            presentColumn.insertAdjacentElement('beforeend',card);
+            presentColumn.insertAdjacentElement('beforeend',task);
         break;
 
         case "completed":
-            completedColumn.insertAdjacentElement('beforeend',card);
+            completedColumn.insertAdjacentElement('beforeend',task);
         break;
-        default: toDocolumn.insertAdjacentElement('beforeend',card);
+        default: toDocolumn.insertAdjacentElement('beforeend',task);
     }
-    
 }
-
-function createItems(){
-    let newItems =[];
-    for (let item in taskElements){
-        let newItem = document.createElement(taskElements[item].tag);
-        newItem.className = taskElements[item].class;
-        switch (item){
-            case "card":
-                newItem.setAttribute("data-bs-toggle","modal");
-                newItem.setAttribute("data-bs-target","#taskModal");
-                newItem.setAttribute("data-task","task");
-                newItem.setAttribute("draggable","true")
-            break;
-            case "buttonDelete":
-                newItem.setAttribute("data-bs-toggle","modal");
-                newItem.setAttribute("data-bs-target","#deleteModal");
-                newItem.insertAdjacentHTML('beforeend',`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
-                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
-                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
-                </svg>`)
-            break;        
-        }       
-        
-        newItems.push(newItem);
-    }
-    return newItems
-}
-
-export {fetchAllTasksData}

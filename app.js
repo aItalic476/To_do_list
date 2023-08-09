@@ -1,9 +1,9 @@
-import {fetchAllTasksData} from './modules/js/task-module.js';
+import {renderAllTasks} from './modules/js/task-module.js';
 import {getTaskById, editModal,deleteModal,form,deleteBtn,updateTask,addTask, deleteTask, clearForm} from './modules/js/modals-module.js'
-import './modules/js/dragndrop-module.js'
+//import './modules/js/dragndrop-module.js'
 
 document.addEventListener("DOMContentLoaded",function(){
-    fetchAllTasksData();
+    renderAllTasks();
 
 })
 var taskId,deleteId;
@@ -28,7 +28,7 @@ form.addEventListener('submit',function(event){
 
 editModal.addEventListener('hidden.bs.modal',function(){
     clearForm()
-    fetchAllTasksData()
+    renderAllTasks()
 })
 
 deleteModal.addEventListener('show.bs.modal',function(event){
@@ -40,5 +40,5 @@ deleteModal.addEventListener('show.bs.modal',function(event){
 }) 
 
 deleteModal.addEventListener('hidden.bs.modal',function(){
-    fetchAllTasksData()
-})
+    renderAllTasks()
+}) 
