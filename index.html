@@ -27,6 +27,8 @@
         </div>
     </div>
  </div>
+  <!--Modal Delete-->
+
  <!-- Modal Task -->
  <div class="modal fade" id="taskModal">
     <div class="modal-dialog ">
@@ -56,7 +58,9 @@
       </div>
     </div>
   </div>
+ <!-- Modal Task -->
 
+ <!--Main Content-->
 <nav class="navbar-expand p-3 navbar-dark" style="background-color: #272727">
     <div class="container">
     <ul class="navbar-nav justify-content-end">
@@ -103,7 +107,9 @@
         </div>
     </div>
 </main>
+ <!--Main Content-->
 
+ <!--Template for "Add new task button"-->
 <template id="addBtn">
     <button class="text-light"
         style=" max-height:4vh; background-color:transparent; outline:none; border: none; box-shadow: none;"
@@ -116,7 +122,9 @@
            <div style="font-weight: 300;">Add new task</div></div>
        </button>
 </template>
+ <!--Template for "Add new task button"-->
 
+ <!--Template for task-->
 <template id="taskTemplate">
     <div class="card shadow-sm mb-3 task" 
         data-bs-toggle="modal"
@@ -132,13 +140,13 @@
             </svg>
         </button>
     </div>
-<div class="card-body">
+<div class="card-body" style="max-width:90%">
     <h5 class="card-title text-light"></h5>
-    <h6 class="card-text text-light"></h6>
+    <h6 class="card-text text-light overflow-hidden" style="white-space: nowrap;max-height:4vh; text-overflow: ellipsis;"></h6>
 </div>
 </div>
  </template> 
- 
+<!--Template for task-->
   
 
 <script type="module" src="app.js"></script>
