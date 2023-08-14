@@ -61,8 +61,6 @@ export function renderAllTasks(){
 
 function clearColumns(){
     toDocolumn.replaceChildren()
-    let addBtn = document.querySelector("#addBtn").content.firstElementChild.cloneNode(true)
-    toDocolumn.insertAdjacentElement('afterbegin',addBtn)
     presentColumn.replaceChildren()
     completedColumn.replaceChildren()
 }

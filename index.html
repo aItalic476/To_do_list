@@ -61,37 +61,25 @@
  <!-- Modal Task -->
 
  <!--Main Content-->
-<nav class="navbar-expand p-3 navbar-dark" style="background-color: #272727">
-    <div class="container">
-    <ul class="navbar-nav justify-content-end">
-        <li class="nav-item mx-2">
-            <a href="#" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item mx-2">
-            <a href="#" class="nav-link">Features</a>
-        </li>
-        <li class="nav-item mx-2">
-            <a href="#" class="nav-link">Pricing</a>
-        </li>
-        <li class="nav-item mx-2">
-            <a href="#" class="nav-link">Sign in</a>
-        </li>
-        
-    </ul>
-</div>
-</nav>
-
 <main style="background-color: #272727">
-    <div class="container">
+    <div class="container py-4">
         <div class="row flex-nowrap justify-content-center">
-            <div class="col-4 mx-2 rounded-3" style="box-shadow: 2px 2px 2px 2px #000;">
-                <h2 class="text-center text-light py-2" style="font-weight: 100;">My tasks</h2>
+            <div class="col-4 mx-2 rounded-3 d-flex justify-content-center align-items-center" style="box-shadow: 2px 2px 2px 2px #000;">
+                <h2 class="text-center text-light m-0 py-2 d-block" style=" font-weight: 100;">My tasks
+                    
+                </h2>
+                <button class="text-light d-block mx-2"
+                    style="height: 100% ; font-size: 6vh; font-weight: 100; background-color:transparent; outline:none; border: none; box-shadow: none;"
+                    data-bs-toggle="modal"
+                    data-bs-target="#taskModal"
+                    data-button-add="newTask"
+                     >+</button>
             </div>
-            <div class="col-4 mx-2 rounded-3" style="box-shadow: 2px 2px 2px 2px #000;">
-                <h2 class="text-center text-light py-2" style="font-weight: 100;">Present</h2>
+            <div class="col-4 mx-2 rounded-3 d-flex justify-content-center align-items-center" style="box-shadow: 2px 2px 2px 2px #000;">
+                <h2 class="text-center text-light py-2 m-0" style="font-weight: 100;">Present</h2>
             </div>
-            <div class="col-4 mx-2 rounded-3" style="box-shadow: 2px 2px 2px 2px #000;">
-                <h2 class="text-center text-light py-2" style="font-weight: 100;" >Completed</h2>
+            <div class="col-4 mx-2 rounded-3 d-flex justify-content-center align-items-center" style="box-shadow: 2px 2px 2px 2px #000;">
+                <h2 class="text-center text-light py-2 m-0" style="font-weight: 100;" >Completed</h2>
             </div>
         </div>
         <div class="row flex-nowrap justify-content-center" style="min-height: 100vh;">
@@ -110,7 +98,7 @@
  <!--Main Content-->
 
  <!--Template for "Add new task button"-->
-<template id="addBtn">
+<!-- <template id="addBtn">
     <button class="text-light"
         style=" max-height:4vh; background-color:transparent; outline:none; border: none; box-shadow: none;"
         data-bs-toggle="modal"
@@ -122,6 +110,12 @@
            <div style="font-weight: 300;">Add new task</div></div>
        </button>
 </template>
+
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+</svg>
+
+-->
  <!--Template for "Add new task button"-->
 
  <!--Template for task-->
