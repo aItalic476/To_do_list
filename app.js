@@ -1,33 +1,72 @@
-import {renderAllTasks} from './modules/js/task-module.js';
-import {getTaskById, editModal,deleteModal,form,deleteBtn,updateTask,addTask, deleteTask, clearForm} from './modules/js/modals-module.js'
+import * as DataModule from './modules/js/data-module.js'
+import * as TaskModule from './modules/js/task-module.js'
+import * as ModalModule from './modules/js/modals-module.js'
 
- document.addEventListener("DOMContentLoaded",function(){
-    renderAllTasks();
+var allColumns = document.querySelectorAll("[data-column]"),
+    editModal = document.querySelector("#taskModal"),
+    deleteModal = document.querySelector('#deleteModal'),
+    deleteBtn = deleteModal.querySelector('[data-delete]'),
+    form = editModal.querySelector('form'),
+    taskId,
+    deleteId;
+
+DataModule.fullDataProvider.context = TaskModule.renderTasks
+DataModule.singleDataProvider.context= ModalModule.setModalContent
+
+allColumns.forEach(column=>{
+    column.addEventListener('dragenter',function(e){
+        e.preventDefault()
+    })
+    column.addEventListener('dragover',function(e){
+        e.preventDefault()
+    })
+    column.addEventListener('dragleave',function(e){
+        e.preventDefault()
+    })
+    column.addEventListener('drop',function(e){
+        if(e.target.hasAttribute("data-column-category")){
+            let id = e.dataTransfer.getData('text/plain').split(',')[0],
+                columnCategory = e.target.getAttribute("data-column-category"),
+                task=document.getElementById(id)
+            e.target.append(task)
+            task.classList.remove('hide')
+            DataModule.updateCategoryProvider.body=JSON.stringify({id:id,category:columnCategory})
+            DataModule.updateCategoryProvider.context=((task,columnCategory)=>()=>task.setAttribute("data-task-category",columnCategory))
+            DataModule.updateCategoryProvider.provide()
+        }
+    })
+
+})
+
+document.addEventListener("DOMContentLoaded",function(){
+    DataModule.fullDataProvider.provide()
 }) 
 
-var taskId,deleteId;
 
 editModal.addEventListener('show.bs.modal',function(event){
      taskId = event.relatedTarget.id
-     clearForm()
+     ModalModule.clearModalContent()
     if(!!taskId){
-        getTaskById(taskId)
+        DataModule.singleDataProvider.body = JSON.stringify({id:taskId})
+        DataModule.singleDataProvider.provide()
     }
 })
 
 form.addEventListener('submit',function(event){
     event.preventDefault()
     if(!!taskId){
-        updateTask(taskId)
+        DataModule.updateDataProvider.body = ModalModule.getModalContent(taskId)
+        DataModule.updateDataProvider.provide()
     } else{
-        addTask()
+       DataModule.addDataProvider.body= ModalModule.getModalContent()
+       DataModule.addDataProvider.provide()
     }
 
 })
 
 editModal.addEventListener('hidden.bs.modal',function(){
-    clearForm()
-    renderAllTasks()
+    ModalModule.clearModalContent()
+    DataModule.fullDataProvider.provide()
 })
 
 deleteModal.addEventListener('show.bs.modal',function(event){
@@ -35,9 +74,10 @@ deleteModal.addEventListener('show.bs.modal',function(event){
 }) 
 
  deleteBtn.addEventListener('click',function(){
-    deleteTask(deleteId)
+    DataModule.deleteDataProvider.body=JSON.stringify({id:deleteId})
+    DataModule.deleteDataProvider.provide()
 }) 
 
 deleteModal.addEventListener('hidden.bs.modal',function(){
-    renderAllTasks()
+    DataModule.fullDataProvider.provide()
 }) 
